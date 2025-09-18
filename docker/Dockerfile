@@ -52,7 +52,7 @@ COPY --chown=pontoon:pontoon .env .env
 COPY --chown=pontoon:pontoon . /app/
 
 # Build frontend assets
-RUN npm run build
+RUN npm run build -w translate
 
 RUN python manage.py collectstatic
 
