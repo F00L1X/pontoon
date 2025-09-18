@@ -13,11 +13,15 @@ ENV PYTHONPATH /app
 
 # Install required software.
 RUN apt-get update \
-    # Enable downloading packages over https
-    && apt-get install -y apt-transport-https \
-    # Add NodeSource v24.x and install nodejs
-    && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
-    # Install software
+    # Install basic dependencies first
+    && apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg \
+    # Add NodeSource repository for Node.js
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    # Install remaining packages
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
@@ -25,8 +29,9 @@ RUN apt-get update \
         nodejs \
         postgresql-client \
         postgresql-server-dev-15 \
-    # Clean up what can be cleaned up.
-    && apt-get autoremove -y
+    # Clean up
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install uv (version should match the one used in Python GitHub workflows)
 COPY --from=ghcr.io/astral-sh/uv:0.7.16 /uv /bin/uv
