@@ -45,7 +45,11 @@ USER pontoon
 # Install the server's Node.js requirements
 ENV YUGLIFY_BINARY /app/node_modules/.bin/yuglify
 ENV TERSER_BINARY /app/node_modules/.bin/terser
+
 COPY --chown=pontoon:pontoon pontoon/package.json .
+COPY --chown=pontoon:pontoon package*.json ./
+COPY --chown=pontoon:pontoon pontoon/package*.json ./pontoon/
+COPY --chown=pontoon:pontoon translate/package*.json ./translate/
 RUN npm install
 
 COPY --chown=pontoon:pontoon .env .env
