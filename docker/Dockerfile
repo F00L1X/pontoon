@@ -55,12 +55,12 @@ RUN npm install
 COPY --chown=pontoon:pontoon .env .env
 COPY --chown=pontoon:pontoon . /app/
 
-# Create translate dist directory and build frontend assets
-RUN mkdir -p /app/translate/dist
+# Build frontend assets
 RUN npm run build -w translate
 
-# Collect static files after building translate assets
-RUN python manage.py collectstatic
+# Ensure translate dist directory exists and collect static files
+RUN mkdir -p /app/translate/dist && \
+    python manage.py collectstatic --noinput
 
 STOPSIGNAL SIGINT
 CMD ["/app/docker/server_run.sh"]
