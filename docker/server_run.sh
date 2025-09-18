@@ -6,4 +6,4 @@ echo ">>> Setting up the db for Django"
 python manage.py migrate
 
 echo ">>> Starting local server"
-exec python manage.py runserver 0.0.0.0:8000
+exec python manage.py runserver 0.0.0.0:3030

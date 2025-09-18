@@ -55,9 +55,11 @@ RUN npm install
 COPY --chown=pontoon:pontoon .env .env
 COPY --chown=pontoon:pontoon . /app/
 
-# Build frontend assets
+# Create translate dist directory and build frontend assets
+RUN mkdir -p /app/translate/dist
 RUN npm run build -w translate
 
+# Collect static files after building translate assets
 RUN python manage.py collectstatic
 
 STOPSIGNAL SIGINT
