@@ -51,6 +51,9 @@ RUN npm install
 COPY --chown=pontoon:pontoon .env .env
 COPY --chown=pontoon:pontoon . /app/
 
+# Build frontend assets
+RUN npm run build
+
 RUN python manage.py collectstatic
 
 STOPSIGNAL SIGINT
